@@ -1,0 +1,14 @@
+{
+  "extends": ["eslint:recommended"],
+  "globals": {
+    "Promise": "readonly",
+    "queueMicrotask": "readonly",
+    "fetch": "readonly",
+    "process": "readonly",
+    "setTimeout": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2023,
+    "sourceType": "module"
+  }
+}

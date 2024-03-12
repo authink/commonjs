@@ -1,0 +1,35 @@
+{
+  "name": "@authink/commonjs",
+  "version": "0.0.3",
+  "description": "commonjs",
+  "author": "huoyijie.cn",
+  "license": "MIT",
+  "module": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/authink/commonjs.git"
+  },
+  "keywords": [
+    "common",
+    "util"
+  ],
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|css|scss|md)\""
+  },
+  "devDependencies": {
+    "eslint": "8.57.0",
+    "prettier": "3.2.5"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "bugs": {
+    "url": "https://github.com/authink/commonjs/issues"
+  },
+  "homepage": "https://github.com/authink/commonjs#readme"
+}
