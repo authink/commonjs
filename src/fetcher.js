@@ -1,8 +1,8 @@
 import { ClientError, ServerError } from './errors'
+import { http } from './http'
 
 function withContentType(method) {
-  const upper = method?.toUpperCase()
-  if (upper == 'POST' || upper == 'PUT') {
+  if (http.isPost(method) || http.isPut(method)) {
     return { 'Content-Type': 'application/json' }
   } else {
     return {}
@@ -17,6 +17,10 @@ function withAuthorization(accessToken) {
   }
 }
 
+function acceptLang(locale) {
+  return locale === 'zh-CN' ? `${locale},zh;q=0.9` : 'en-US,en;q=0.9'
+}
+
 function withBody(data) {
   if (data) {
     return { body: JSON.stringify(data) }
@@ -25,7 +29,14 @@ function withBody(data) {
   }
 }
 
-export async function fetcher({ path, method, accessToken, body }) {
+export async function fetcher({
+  basePath,
+  path,
+  method,
+  locale,
+  accessToken,
+  body,
+}) {
   let data, error
   try {
     const options = {
@@ -33,18 +44,20 @@ export async function fetcher({ path, method, accessToken, body }) {
       headers: {
         ...withContentType(method),
         ...withAuthorization(accessToken),
+        'Accept-Language': acceptLang(locale),
       },
       ...withBody(body),
     }
 
-    const res = await fetch(
-      `/${process.env.NEXT_PUBLIC_API_BASE_PATH}/${path}`,
-      options,
-    )
+    const res = await fetch(`/${basePath}/${path}`, options)
 
     if (res.ok) {
       data = await res.json()
-    } else if (res.status == 400 || res.status == 401 || res.status == 403) {
+    } else if (
+      http.isBadRequest(res.status) ||
+      http.isUnauthorized(res.status) ||
+      http.isForbidden(res.status)
+    ) {
       const { code, message } = await res.json()
       error = new ClientError(code, message, res.status)
     } else {
