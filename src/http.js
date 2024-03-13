@@ -9,7 +9,7 @@ export const http = {
   },
 
   valid(method) {
-    return this.methods.includes(method.toUpperCase())
+    return this.methods().includes(method.toUpperCase())
   },
 
   isGet(method) {
