@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ClientError, ServerError } from './errors'
 import { http } from './http'
 
-function withContentType(method) {
+function withContentType(method: string): Record<string, string> {
   if (http.isPost(method) || http.isPut(method)) {
     return { 'Content-Type': 'application/json' }
   } else {
@@ -9,7 +10,7 @@ function withContentType(method) {
   }
 }
 
-function withAuthorization(accessToken) {
+function withAuthorization(accessToken?: string): Record<string, string> {
   if (accessToken) {
     return { Authorization: `Bearer ${accessToken}` }
   } else {
@@ -17,16 +18,25 @@ function withAuthorization(accessToken) {
   }
 }
 
-function acceptLang(locale) {
+function acceptLang(locale: string) {
   return locale === 'zh-CN' ? `${locale},zh;q=0.9` : 'en-US,en;q=0.9'
 }
 
-function withBody(data) {
+function withBody<T>(data: T | null | undefined): { body?: string } {
   if (data) {
     return { body: JSON.stringify(data) }
   } else {
     return {}
   }
+}
+
+interface FetcherOptions {
+  basePath: string
+  path: string
+  method: string
+  locale: string
+  accessToken?: string
+  body?: any // 这里的 any 可以是任意对象类型
 }
 
 export async function fetcher({
@@ -36,16 +46,20 @@ export async function fetcher({
   locale,
   accessToken,
   body,
-}) {
-  let data, error
+}: FetcherOptions): Promise<any> {
+  let data: any
+  let error: Error | undefined
+
   try {
-    const options = {
+    const headers: HeadersInit = {
+      ...withContentType(method),
+      ...withAuthorization(accessToken),
+      'Accept-Language': acceptLang(locale),
+    }
+
+    const options: RequestInit = {
       method,
-      headers: {
-        ...withContentType(method),
-        ...withAuthorization(accessToken),
-        'Accept-Language': acceptLang(locale),
-      },
+      headers,
       ...withBody(body),
     }
 
@@ -63,8 +77,10 @@ export async function fetcher({
     } else {
       error = new ServerError(res.statusText, res.status)
     }
-  } catch ({ message }) {
-    error = new ServerError(message)
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      error = new ServerError(e.message)
+    }
   }
 
   if (error) {

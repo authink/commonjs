@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "globals": {
     "Promise": "readonly",
     "queueMicrotask": "readonly",
@@ -10,5 +10,7 @@
   "parserOptions": {
     "ecmaVersion": 2023,
     "sourceType": "module"
-  }
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"]
 }

@@ -1,5 +1,8 @@
 export class ClientError extends Error {
-  constructor(code, message, statusCode = 400) {
+  code: number
+  statusCode: number
+
+  constructor(code: number, message: string, statusCode: number = 400) {
     super(message)
     this.code = code
     this.statusCode = statusCode
@@ -7,7 +10,9 @@ export class ClientError extends Error {
 }
 
 export class ServerError extends Error {
-  constructor(message, statusCode = 500) {
+  statusCode: number
+
+  constructor(message: string, statusCode: number = 500) {
     super(message)
     this.statusCode = statusCode
   }
