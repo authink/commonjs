@@ -6,4 +6,6 @@ export { setImmediate } from './setImmediate'
 
 export { wait } from './wait'
 
+export { ignoreError } from './ignoreError'
+
 export { http } from './http'
