@@ -1,6 +1,6 @@
 {
   "name": "@authink/commonjs",
-  "version": "0.0.7",
+  "version": "0.0.10",
   "description": "commonjs",
   "author": "huoyijie.cn",
   "license": "MIT",
@@ -19,7 +19,8 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "npm run lint && npm run format && tsc",
+    "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "format": "prettier --write \"**/*.+(js|jsx|ts|tsx|json|css|scss|md)\""
   },

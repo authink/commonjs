@@ -42,7 +42,7 @@ interface FetcherOptions {
 export async function fetcher({
   basePath,
   path,
-  method,
+  method = http.GET,
   locale,
   accessToken,
   body,
