@@ -36,7 +36,7 @@ interface FetcherOptions {
   method: string
   locale: string
   accessToken?: string
-  body?: any // 这里的 any 可以是任意对象类型
+  body?: any
 }
 
 export async function fetcher({
