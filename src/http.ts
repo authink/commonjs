@@ -35,4 +35,8 @@ export const http = {
   isForbidden(code: number): boolean {
     return code === 403
   },
+
+  isNoContent(code: number): boolean {
+    return code === 204
+  },
 }

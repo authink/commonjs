@@ -66,7 +66,9 @@ export async function fetcher({
     const res = await fetch(`/${basePath}/${path}`, options)
 
     if (res.ok) {
-      data = await res.json()
+      if (!http.isNoContent(res.status)) {
+        data = await res.json()
+      }
     } else if (
       http.isBadRequest(res.status) ||
       http.isUnauthorized(res.status) ||
