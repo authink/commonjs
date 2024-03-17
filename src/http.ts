@@ -33,6 +33,6 @@ export const http = {
   },
 
   isForbidden(code: number): boolean {
-    return code === 402
+    return code === 403
   },
 }
