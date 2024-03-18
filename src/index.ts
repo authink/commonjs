@@ -8,4 +8,6 @@ export { wait } from './wait'
 
 export { ignoreError } from './ignoreError'
 
+export { emailValidator, phoneValidator } from './validator'
+
 export { http } from './http'
